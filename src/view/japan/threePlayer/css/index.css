@@ -1,0 +1,97 @@
+.calcContainer .tilesList {
+  flex: 0 0 320px;
+  background: #1B9008;
+}
+.calcContainer .optional {
+  width: 100%;
+  flex: 1 0 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  column-gap: 30px;
+}
+.optional .submitBtn {
+  height: 40px;
+  flex: 0 0 190px;
+  box-sizing: border-box;
+  background-image: linear-gradient(to right, #00DC23, #00B91E);
+  border: 3px solid #00830D;
+  font-size: 20px;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 15px;
+  display: flex;
+  align-items: center; 
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 3px 3px 6px 0px #00830D66;
+}
+.optional .submitBtn:hover {
+  background-image: linear-gradient(to left, #00DC23, #00B91E);
+  border-color: #00A310;
+}
+.optional .optionalCol {
+  flex-grow: 1;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-wrap: wrap;
+  row-gap: 10px;
+  column-gap: 18px;
+}
+.optionalCol > div {
+  display: flex;
+  align-items: baseline;
+  column-gap: 7px;
+}
+.optionalCol > div .labelTxt {
+  display: inline-block;
+  font-weight: bold;
+}
+.optionalCol .fons {
+  column-gap: 20px;
+}
+.optionalCol .fons .options {
+  display: flex;
+  align-items: baseline;
+  column-gap: 8px;
+}
+.optionalCol .counterLabel .counter {
+  width: 100px;
+  height: 20px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.optionalCol .counterLabel .counter .minus, .optionalCol .counterLabel .counter .add {
+  width: 18px;
+  height: 18px;
+  background: #d9d9d9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+}
+.optionalCol .counterLabel .counter .minus:active, .optionalCol .counterLabel .counter .add:active {
+  background: #c2c2c2;
+}
+.optionalCol .counterLabel .counter .minus {
+  border-radius: 10px 0 0 10px;
+}
+.optionalCol .counterLabel .counter .add {
+  border-radius: 0 10px 10px 0;
+}
+.optionalCol .eligible {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.calcContainer .calcuation {
+  flex: 0 0 222px;
+  background: #063BC1;
+}
