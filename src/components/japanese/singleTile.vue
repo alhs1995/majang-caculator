@@ -2,7 +2,7 @@
   <div :class="tiles.tileContainer">
     <div :class="tileClass" :tile="props.tile" @click="onTileClick()">
     </div>
-    <div :class="tiles.counter">{{ props.counts }}</div>
+    <div v-if="props.tile !== 'none'" :class="tiles.counter">{{ props.counts }}</div>
   </div>
 </template>
 
@@ -24,7 +24,12 @@ const emits = defineEmits(['tileClick'])
 // const isSelected = toRef(props, 'selected')
 const tileClass = computed(() => {
   let rtnStr = tiles.singleTile
-  if (props.tile.includes('a')) rtnStr += ' ' + tiles.aka
+  if (props.tile === 'none') {
+    rtnStr += ' ' + tiles.none
+
+  } else {
+    if (props.tile.includes('a')) rtnStr += ' ' + tiles.aka
+  }
   if (props.selected) rtnStr += ' ' + tiles.selected
   return rtnStr
 })

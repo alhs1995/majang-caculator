@@ -1,15 +1,11 @@
 <template>
-  <div class="mainWrapper" :class="{'withbar':appShowType !== 'main'}">
+  <div class="mainWrapper" :class="{ 'withbar': appShowType !== 'main' }">
     <template v-if="appShowType === 'main'">
       <div class="mainTitle">麻將分數計算器</div>
       <div class="mainSubTitle">種類選擇</div>
       <div class="mainTypeBtnList">
-        <div 
-          v-for="mjType in Object.entries(mjDictonary)" 
-          :key="mjType[0]" 
-          class="mainTypeBtn" 
-          @click="onChangeShowTypeClick(mjType[0])"
-        >{{ mjType[1].view.showText }}</div>
+        <div v-for="mjType in Object.entries(mjDictonary)" :key="mjType[0]" class="mainTypeBtn"
+          @click="onChangeShowTypeClick(mjType[0])">{{ mjType[1].view.showText }}</div>
       </div>
     </template>
     <template v-else>
@@ -47,8 +43,8 @@ const mjDictonary = ref({
 
 const onChangeShowTypeClick = (gameType) => {
   appShowType.value = gameType
-  if(gameType !== 'main') {
-    mjDetail.value = mjDictonary[gameType].detail  
+  if (gameType !== 'main') {
+    mjDetail.value = mjDictonary.value[gameType].detail
   } else {
     mjDetail.value = {
       mahjong_type: '',

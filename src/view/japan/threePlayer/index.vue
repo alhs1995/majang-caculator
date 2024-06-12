@@ -77,7 +77,16 @@
       <div class="submitBtn">送出計算</div>
     </div>
     <!-- 手牌區 -->
-    <div class="calcuation"></div>
+    <div class="calcuation">
+      <div class="calcRow">
+        <div class="calcTileBox">
+          <div class="calcRowTitle">手牌</div>
+          <tile tile="none" />
+        </div>
+      </div>
+      <div class="calcRow"></div>
+      <div class="calcRow"></div>
+    </div>
   </div>
 </template>
 
