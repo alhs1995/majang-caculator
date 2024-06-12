@@ -1,21 +1,8 @@
-.calcContainer .tilesList {
-  flex: 0 0 320px;
-  background: #1B9008;
-}
-.calcContainer .optional {
-  width: 100%;
-  flex: 1 0 60px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 16px;
-  column-gap: 30px;
-}
 .optional .submitBtn {
   height: 40px;
   flex: 0 0 190px;
   box-sizing: border-box;
-  background-image: linear-gradient(to right, #00DC23, #00B91E);
+  background-image: linear-gradient(to bottom, #00DC23, #00B91E);
   border: 3px solid #00830D;
   font-size: 20px;
   color: #fff;
@@ -28,7 +15,7 @@
   box-shadow: 3px 3px 6px 0px #00830D66;
 }
 .optional .submitBtn:hover {
-  background-image: linear-gradient(to left, #00DC23, #00B91E);
+  background-image: linear-gradient(to top, #00DC23, #00B91E);
   border-color: #00A310;
 }
 .optional .optionalCol {
@@ -90,8 +77,4 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
-.calcContainer .calcuation {
-  flex: 0 0 222px;
-  background: #063BC1;
 }

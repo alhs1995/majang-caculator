@@ -1,0 +1,48 @@
+@font-face {
+  font-family: 'mahjong-jp';
+  src: url('../../../../fonts/I.MahjongJP.otf');
+}
+.tileContainer {
+  width: 46px;
+  height: 61px;
+  position: relative;
+  .counter {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: -10px;
+    right: -10px;
+    border-radius: 50%;
+    background: #f00;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+.singleTile {
+  width: 46px;
+  height: 61px;
+  background: #fff;
+  border-radius: 6px;
+  font-family: 'mahjong-jp';
+  position: relative;
+  cursor: pointer;
+  border: 2px solid transparent;
+  background-clip: content-box;
+  overflow: hidden;
+  &::before {
+    position: absolute;
+    content: attr(tile);
+    top: -17px;
+    left: 0;
+    font-size: 69px;
+  }
+  &.aka {
+    color: #b30000;
+  }
+  &.selected {
+    border-color: yellow;
+  }
+}
+
