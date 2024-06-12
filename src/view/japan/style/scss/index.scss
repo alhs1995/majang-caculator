@@ -39,7 +39,7 @@
         display: flex;
         align-items: center;
         height: 100%;
-        column-gap: 12px;
+        column-gap: 7px;
         .calcRowTitle {
           height: 100%;
           flex: 0 0 25px;
@@ -49,6 +49,12 @@
           text-align: center;
           background: #000981;
           color: #fff;
+        }
+        .calcGroup {
+          height: 100%;
+          display: flex;
+          align-items: center;
+          column-gap: 3px;
         }
         .calcAddBtn {
           flex: 0 0 50px;

@@ -1,9 +1,9 @@
 <template>
   <div class="calcContainer">
-    <!-- 牌區 -->
+    <!-- 牌山區 -->
     <div class="tilesList">
       <div v-for="(tileRow, index) in tilesWithRow" :key="'showRow' + index" class="tilesRow">
-        <tile v-for="tile in tileRow" :key="'show' + tile[0]" spaceType="show" :tile="tile[0]" :counts="tile[1].counts"
+        <tile v-for="tile in tileRow" :key="'show' + tile[0]" spaceType="show" :tile="tile[0]" :counts="tile[1]"
           :selected="selectedTileName === tile[0]" @tileClick="onTileClick" />
       </div>
     </div>
@@ -81,42 +81,69 @@
       <div class="calcRow">
         <div class="calcTileBox">
           <div class="calcRowTitle">手牌</div>
-          <tile v-for="hand in showHand" :key="hand.ref" spaceType="hand" tile="none" />
+          <tile 
+            v-for="hand in inHandCount" 
+            :key="'hand'+(hand-1)" 
+            spaceType="hand" 
+            :tile="showHand[hand-1]" 
+            :selected="(showHand[hand-1] === 'none' && !!selectedTileName) || (showHand[hand-1] !== 'none' && selectedHandName === ('hand'+(hand-1)))" 
+            @setClick="setTile('hand', hand-1)"
+            @editClick="editTile('hand'+(hand-1))"
+            @delClick="delTile('hand', hand-1)"
+          />
         </div>
         <div class="calcTileBox">
           <div class="calcRowTitle">和牌</div>
-          <tile spaceType="hand" tile="none" />
+          <tile 
+            spaceType="hand" 
+            :tile="showHo" 
+            :selected="(showHo === 'none' && !!selectedTileName) || (showHo !== 'none' && selectedHandName === 'ho')"
+            @setClick="setTile('ho', 0)"
+            @editClick="editTile('ho')"
+            @delClick="delTile('ho', 0)"
+          />
         </div>
       </div>
       <div class="calcRow">
         <div class="calcTileBox">
-          <div class="calcRowTitle">鸣牌</div>
+          <div class="calcRowTitle">鳴牌</div>
+          <template v-if="true">
+            <div class="calcGroup">
+              <tile spaceType="hand" tile="none" :selected="!!selectedTileName" />
+              <tile spaceType="hand" tile="none" :selected="!!selectedTileName" />
+              <tile spaceType="hand" tile="none" :selected="!!selectedTileName" />
+              <tile spaceType="hand" tile="none" :selected="!!selectedTileName" />
+            </div>
+          </template>
+          <div class="calcAddBtn cross"></div>
           <div class="calcAddBtn add"></div>
         </div>
       </div>
       <div class="calcRow">
         <div class="calcTileBox">
           <div class="calcRowTitle">拔北</div>
-          <tile spaceType="hand" tile="none" />
-          <tile spaceType="hand" tile="none" />
-          <tile spaceType="hand" tile="none" />
-          <tile spaceType="hand" tile="none" />
+          <tile spaceType="hand" tile="none" :selected="!!selectedTileName" />
+          <tile v-show="false" spaceType="hand" tile="none" :selected="!!selectedTileName" />
+          <tile v-show="false" spaceType="hand" tile="none" :selected="!!selectedTileName" />
+          <tile v-show="false" spaceType="hand" tile="none" :selected="!!selectedTileName" />
         </div>
         <div class="calcTileBox">
-          <div class="calcRowTitle">宝牌指</div>
-          <tile spaceType="hand" tile="none" />
-          <tile spaceType="hand" tile="none" />
-          <tile spaceType="hand" tile="none" />
-          <tile spaceType="hand" tile="none" />
-          <tile spaceType="hand" tile="none" />
+          <div class="calcRowTitle">寶牌指</div>
+          <tile spaceType="hand" tile="none" :selected="!!selectedTileName" />
+          <tile v-show="false" spaceType="hand" tile="none" :selected="!!selectedTileName" />
+          <tile v-show="false" spaceType="hand" tile="none" :selected="!!selectedTileName" />
+          <tile v-show="false" spaceType="hand" tile="none" :selected="!!selectedTileName" />
+          <tile v-show="false" spaceType="hand" tile="none" :selected="!!selectedTileName" />
         </div>
         <div class="calcTileBox">
-          <div class="calcRowTitle">里宝指</div>
-          <tile spaceType="hand" tile="none" />
-          <tile spaceType="hand" tile="none" />
-          <tile spaceType="hand" tile="none" />
-          <tile spaceType="hand" tile="none" />
-          <tile spaceType="hand" tile="none" />
+          <template v-if="isLiji">
+            <div class="calcRowTitle">裏寶指</div>
+            <tile spaceType="hand" tile="none" :selected="!!selectedTileName" />
+            <tile v-show="false" spaceType="hand" tile="none" :selected="!!selectedTileName" />
+            <tile v-show="false" spaceType="hand" tile="none" :selected="!!selectedTileName" />
+            <tile v-show="false" spaceType="hand" tile="none" :selected="!!selectedTileName" />
+            <tile v-show="false" spaceType="hand" tile="none" :selected="!!selectedTileName" />
+          </template>
         </div>
       </div>
     </div>
@@ -124,121 +151,47 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onBeforeMount } from 'vue'
 import tile from '@/components/japanese/singleTile.vue'
 
 const tileList = ref({
-  '1m': {
-    counts: 4
-  },
-  '2m': {
-    counts: 4
-  },
-  '3m': {
-    counts: 4
-  },
-  '4m': {
-    counts: 4
-  },
-  '5m': {
-    counts: 3
-  },
-  '5ma': {
-    counts: 1
-  },
-  '6m': {
-    counts: 4
-  },
-  '7m': {
-    counts: 4
-  },
-  '8m': {
-    counts: 4
-  },
-  '9m': {
-    counts: 4
-  },
-  '1p': {
-    counts: 4
-  },
-  '2p': {
-    counts: 4
-  },
-  '3p': {
-    counts: 4
-  },
-  '4p': {
-    counts: 4
-  },
-  '5p': {
-    counts: 3
-  },
-  '5pa': {
-    counts: 1
-  },
-  '6p': {
-    counts: 4
-  },
-  '7p': {
-    counts: 4
-  },
-  '8p': {
-    counts: 4
-  },
-  '9p': {
-    counts: 4
-  },
-  '1s': {
-    counts: 4
-  },
-  '2s': {
-    counts: 4
-  },
-  '3s': {
-    counts: 4
-  },
-  '4s': {
-    counts: 4
-  },
-  '5s': {
-    counts: 3
-  },
-  '5sa': {
-    counts: 1
-  },
-  '6s': {
-    counts: 4
-  },
-  '7s': {
-    counts: 4
-  },
-  '8s': {
-    counts: 4
-  },
-  '9s': {
-    counts: 4
-  },
-  '1f': {
-    counts: 4
-  },
-  '2f': {
-    counts: 4
-  },
-  '3f': {
-    counts: 4
-  },
-  '4f': {
-    counts: 4
-  },
-  '5f': {
-    counts: 4
-  },
-  '6f': {
-    counts: 4
-  },
-  '7f': {
-    counts: 4
-  },
+  '1m': 4,
+  // '2m':  4,
+  // '3m': 4,
+  // '4m': 4,
+  // '5m': 3,
+  // '5ma': 1,
+  // '6m': 4,
+  // '7m': 4,
+  // '8m': 4,
+  '9m': 4,
+  '1p': 4,
+  '2p': 4,
+  '3p': 4,
+  '4p': 4,
+  '5p': 3,
+  '5pa': 1,
+  '6p': 4,
+  '7p': 4,
+  '8p': 4,
+  '9p': 4,
+  '1s': 4,
+  '2s': 4,
+  '3s': 4,
+  '4s': 4,
+  '5s': 3,
+  '5sa': 1,
+  '6s': 4,
+  '7s': 4,
+  '8s': 4,
+  '9s': 4,
+  '1f': 4,
+  '2f': 4,
+  '3f': 4,
+  '4f': 4,
+  '5f': 4,
+  '6f': 4,
+  '7f': 4,
 })
 const selectedTileName = ref('')
 
@@ -279,61 +232,43 @@ const onIncreaseClick = (type) => {
     lijiCounts.value += 1
   }
 }
-
-const showHand = ref([
-  {
-    ref: 'hand1',
-    tile: ''
-  },
-  {
-    ref: 'hand2',
-    tile: ''
-  },
-  {
-    ref: 'hand3',
-    tile: ''
-  },
-  {
-    ref: 'hand4',
-    tile: ''
-  },
-  {
-    ref: 'hand5',
-    tile: ''
-  },
-  {
-    ref: 'hand6',
-    tile: ''
-  },
-  {
-    ref: 'hand7',
-    tile: ''
-  },
-  {
-    ref: 'hand8',
-    tile: ''
-  },
-  {
-    ref: 'hand9',
-    tile: ''
-  },
-  {
-    ref: 'hand10',
-    tile: ''
-  },
-  {
-    ref: 'hand11',
-    tile: ''
-  },
-  {
-    ref: 'hand12',
-    tile: ''
-  },
-  {
-    ref: 'hand13',
-    tile: ''
+const selectedHandName = ref('')
+const inHandCount = ref(13)
+const showHand = ref([])
+const showHo = ref('none')
+const setTile = (where, idx) => {
+  if (!!selectedTileName.value) {
+    if (where === 'hand') {
+      showHand.value[idx] = selectedTileName.value
+    } else if (where === 'ho') {
+      showHo.value = selectedTileName.value
+    }
+    tileList.value[selectedTileName.value] -= 1
+    selectedTileName.value = ''
   }
-])
+}
+const editTile = (whereString) => {
+  if(selectedHandName.value === whereString) {
+    selectedHandName.value = ''
+  } else {
+    selectedHandName.value = whereString
+  }
+}
+const delTile = (where, idx) => {
+  if (where === 'hand') {
+    tileList.value[showHand.value[idx]] += 1
+    showHand.value[idx] = 'none'
+  } else if (where === 'ho') {
+    tileList.value[showHo.value] += 1
+    showHo.value = 'none'
+  }
+  selectedHandName.value = ''
+}
+
+onBeforeMount(() => {
+  showHand.value.length = inHandCount.value
+  showHand.value.fill('none', 0)
+})
 </script>
 
 <style scoped src="../style/scss/index.scss"></style>
