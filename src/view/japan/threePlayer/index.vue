@@ -2,8 +2,8 @@
   <div class="calcContainer">
     <!-- 牌區 -->
     <div class="tilesList">
-      <div v-for="(tileRow, index) in tilesWithRow" :key="'handRow' + index" class="tilesRow">
-        <tile v-for="tile in tileRow" :key="'hand' + tile[0]" :tile="tile[0]" :counts="tile[1].counts"
+      <div v-for="(tileRow, index) in tilesWithRow" :key="'showRow' + index" class="tilesRow">
+        <tile v-for="tile in tileRow" :key="'show' + tile[0]" spaceType="show" :tile="tile[0]" :counts="tile[1].counts"
           :selected="selectedTileName === tile[0]" @tileClick="onTileClick" />
       </div>
     </div>
@@ -81,11 +81,37 @@
       <div class="calcRow">
         <div class="calcTileBox">
           <div class="calcRowTitle">手牌</div>
-          <tile tile="none" />
+          <tile v-for="hand in showHand" :key="hand.ref" spaceType="hand" tile="none" />
+        </div>
+        <div class="calcTileBox">
+          <div class="calcRowTitle">和牌</div>
+          <tile spaceType="hand" tile="none" />
         </div>
       </div>
-      <div class="calcRow"></div>
-      <div class="calcRow"></div>
+      <div class="calcRow">
+        <div class="calcTileBox">
+          <div class="calcRowTitle">鸣牌</div>
+          <div class="calcAddBtn add"></div>
+        </div>
+      </div>
+      <div class="calcRow">
+        <div class="calcTileBox">
+          <div class="calcRowTitle">宝牌指</div>
+          <tile spaceType="hand" tile="none" />
+          <tile spaceType="hand" tile="none" />
+          <tile spaceType="hand" tile="none" />
+          <tile spaceType="hand" tile="none" />
+          <tile spaceType="hand" tile="none" />
+        </div>
+        <div class="calcTileBox">
+          <div class="calcRowTitle">里宝指</div>
+          <tile spaceType="hand" tile="none" />
+          <tile spaceType="hand" tile="none" />
+          <tile spaceType="hand" tile="none" />
+          <tile spaceType="hand" tile="none" />
+          <tile spaceType="hand" tile="none" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -95,115 +121,115 @@ import { ref, computed } from 'vue'
 import tile from '@/components/japanese/singleTile.vue'
 
 const tileList = ref({
-  "1m": {
+  '1m': {
     counts: 4
   },
-  "2m": {
+  '2m': {
     counts: 4
   },
-  "3m": {
+  '3m': {
     counts: 4
   },
-  "4m": {
+  '4m': {
     counts: 4
   },
-  "5m": {
+  '5m': {
     counts: 3
   },
-  "5ma": {
+  '5ma': {
     counts: 1
   },
-  "6m": {
+  '6m': {
     counts: 4
   },
-  "7m": {
+  '7m': {
     counts: 4
   },
-  "8m": {
+  '8m': {
     counts: 4
   },
-  "9m": {
+  '9m': {
     counts: 4
   },
-  "1p": {
+  '1p': {
     counts: 4
   },
-  "2p": {
+  '2p': {
     counts: 4
   },
-  "3p": {
+  '3p': {
     counts: 4
   },
-  "4p": {
+  '4p': {
     counts: 4
   },
-  "5p": {
+  '5p': {
     counts: 3
   },
-  "5pa": {
+  '5pa': {
     counts: 1
   },
-  "6p": {
+  '6p': {
     counts: 4
   },
-  "7p": {
+  '7p': {
     counts: 4
   },
-  "8p": {
+  '8p': {
     counts: 4
   },
-  "9p": {
+  '9p': {
     counts: 4
   },
-  "1s": {
+  '1s': {
     counts: 4
   },
-  "2s": {
+  '2s': {
     counts: 4
   },
-  "3s": {
+  '3s': {
     counts: 4
   },
-  "4s": {
+  '4s': {
     counts: 4
   },
-  "5s": {
+  '5s': {
     counts: 3
   },
-  "5sa": {
+  '5sa': {
     counts: 1
   },
-  "6s": {
+  '6s': {
     counts: 4
   },
-  "7s": {
+  '7s': {
     counts: 4
   },
-  "8s": {
+  '8s': {
     counts: 4
   },
-  "9s": {
+  '9s': {
     counts: 4
   },
-  "1f": {
+  '1f': {
     counts: 4
   },
-  "2f": {
+  '2f': {
     counts: 4
   },
-  "3f": {
+  '3f': {
     counts: 4
   },
-  "4f": {
+  '4f': {
     counts: 4
   },
-  "5f": {
+  '5f': {
     counts: 4
   },
-  "6f": {
+  '6f': {
     counts: 4
   },
-  "7f": {
+  '7f': {
     counts: 4
   },
 })
@@ -246,6 +272,61 @@ const onIncreaseClick = (type) => {
     lijiCounts.value += 1
   }
 }
+
+const showHand = ref([
+  {
+    ref: 'hand1',
+    tile: ''
+  },
+  {
+    ref: 'hand2',
+    tile: ''
+  },
+  {
+    ref: 'hand3',
+    tile: ''
+  },
+  {
+    ref: 'hand4',
+    tile: ''
+  },
+  {
+    ref: 'hand5',
+    tile: ''
+  },
+  {
+    ref: 'hand6',
+    tile: ''
+  },
+  {
+    ref: 'hand7',
+    tile: ''
+  },
+  {
+    ref: 'hand8',
+    tile: ''
+  },
+  {
+    ref: 'hand9',
+    tile: ''
+  },
+  {
+    ref: 'hand10',
+    tile: ''
+  },
+  {
+    ref: 'hand11',
+    tile: ''
+  },
+  {
+    ref: 'hand12',
+    tile: ''
+  },
+  {
+    ref: 'hand13',
+    tile: ''
+  }
+])
 </script>
 
 <style scoped src="../style/scss/index.scss"></style>

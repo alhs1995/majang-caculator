@@ -26,7 +26,7 @@
     background: #063BC1;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    // overflow: hidden;
     .calcRow {
       flex: 0 0 74px;
       width: 100%;
@@ -34,11 +34,12 @@
       border: 1px solid gray;
       display: flex;
       align-items: center;
+      justify-content: space-between;
       .calcTileBox {
         display: flex;
         align-items: center;
         height: 100%;
-        column-gap: 5px;
+        column-gap: 12px;
         .calcRowTitle {
           height: 100%;
           flex: 0 0 25px;
@@ -48,6 +49,109 @@
           text-align: center;
           background: #000981;
           color: #fff;
+        }
+        .calcAddBtn {
+          flex: 0 0 50px;
+          height: 50px;
+          background: #a0a0a0;
+          border-radius: 10px;
+          cursor: pointer;
+          position: relative;
+          overflow: hidden;
+          &.add {
+            &::after {
+              content: '+';
+              position: absolute;
+              width: 50px;
+              height: 50px;
+              top: -3px;
+              left: 0;
+              font-weight: bold;
+              font-size: 50px;
+              text-align: center;
+              overflow: hidden;
+            }
+          }
+          &.cross {
+            &::after {
+              content: '×';
+              position: absolute;
+              width: 50px;
+              height: 50px;
+              top: -3px;
+              left: 0;
+              font-weight: bold;
+              font-size: 50px;
+              text-align: center;
+              overflow: hidden;
+            }
+          }
+          &.pon {
+            &::after {
+              content: '碰';
+              position: absolute;
+              width: 50px;
+              height: 50px;
+              top: 5px;
+              left: 0;
+              font-weight: bold;
+              font-size: 40px;
+              text-align: center;
+              overflow: hidden;
+            }
+          }
+          &.selfKan {
+            &::before {
+              content: '暗';
+              position: absolute;
+              width: 50px;
+              height: 50px;
+              top: 3px;
+              left: -13px;
+              font-weight: bold;
+              font-size: 15px;
+              text-align: center;
+              overflow: hidden;
+            }
+            &::after {
+              content: '杠';
+              position: absolute;
+              width: 50px;
+              height: 50px;
+              top: 18px;
+              left: 5px;
+              font-weight: bold;
+              font-size: 30px;
+              text-align: center;
+              overflow: hidden;
+            }
+          }
+          &.kan {
+            &::before {
+              content: '明';
+              position: absolute;
+              width: 50px;
+              height: 50px;
+              top: 3px;
+              left: -13px;
+              font-weight: bold;
+              font-size: 15px;
+              text-align: center;
+              overflow: hidden;
+            }
+            &::after {
+              content: '杠';
+              position: absolute;
+              width: 50px;
+              height: 50px;
+              top: 18px;
+              left: 5px;
+              font-weight: bold;
+              font-size: 30px;
+              text-align: center;
+              overflow: hidden;
+            }
+          }
         }
       }
     }
