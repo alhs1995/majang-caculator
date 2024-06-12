@@ -96,6 +96,13 @@
       </div>
       <div class="calcRow">
         <div class="calcTileBox">
+          <div class="calcRowTitle">拔北</div>
+          <tile spaceType="hand" tile="none" />
+          <tile spaceType="hand" tile="none" />
+          <tile spaceType="hand" tile="none" />
+          <tile spaceType="hand" tile="none" />
+        </div>
+        <div class="calcTileBox">
           <div class="calcRowTitle">宝牌指</div>
           <tile spaceType="hand" tile="none" />
           <tile spaceType="hand" tile="none" />
