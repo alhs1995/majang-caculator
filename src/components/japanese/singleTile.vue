@@ -3,8 +3,8 @@
     <div :class="tileClass" :tile="props.tile" @click="onTileClick()">
     </div>
     <div v-if="props.spaceType === 'show'" :class="counterClass">{{ props.counts }}</div>
-    <div v-else-if="props.spaceType === 'hand' && props.selected && props.tile !== 'none'" :class="tiles.counter+' '+tiles.pointer"
-      @click="onDelClick()">X</div>
+    <div v-else-if="props.spaceType === 'hand' && props.selected && props.tile !== 'none'"
+      :class="tiles.counter + ' ' + tiles.pointer" @click="onDelClick()">X</div>
   </div>
 </template>
 
@@ -48,7 +48,9 @@ const onTileClick = () => {
       emits('tileClick', props.tile)
   } else if (props.spaceType === 'hand') {
     if (props.tile === 'none') {
-      emits('setClick')// 设定
+      if (props.selected) {
+        emits('setClick')// 设定
+      }
     } else {
       emits('editClick') //编辑
     }

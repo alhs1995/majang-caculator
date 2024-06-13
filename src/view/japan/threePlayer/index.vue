@@ -81,68 +81,62 @@
       <div class="calcRow">
         <div class="calcTileBox">
           <div class="calcRowTitle">手牌</div>
-          <tile 
-            v-for="hand in inHandCount" 
-            :key="'hand'+(hand-1)" 
-            spaceType="hand" 
-            :tile="showHand[hand-1]" 
-            :selected="(showHand[hand-1] === 'none' && !!selectedTileName) || (showHand[hand-1] !== 'none' && selectedHandName === ('hand'+(hand-1)))" 
-            @setClick="setTile('hand', hand-1)"
-            @editClick="editTile('hand'+(hand-1))"
-            @delClick="delTile('hand', hand-1)"
-          />
+          <tile v-for="(hand, idx) in showHand" :key="'hand' + idx" spaceType="hand" :tile="hand"
+            :selected="(hand === 'none' && !!selectedTileName) || (hand !== 'none' && selectedHandName === ('hand' + idx))"
+            @setClick="setTile('hand', idx)" @editClick="editTile('hand' + idx)" @delClick="delTile('hand', idx)" />
         </div>
         <div class="calcTileBox">
           <div class="calcRowTitle">和牌</div>
-          <tile 
-            spaceType="hand" 
-            :tile="showHo" 
+          <tile spaceType="hand" :tile="showHo"
             :selected="(showHo === 'none' && !!selectedTileName) || (showHo !== 'none' && selectedHandName === 'ho')"
-            @setClick="setTile('ho', 0)"
-            @editClick="editTile('ho')"
-            @delClick="delTile('ho', 0)"
-          />
+            @setClick="setTile('ho', 0)" @editClick="editTile('ho')" @delClick="delTile('ho', 0)" />
         </div>
       </div>
       <div class="calcRow">
         <div class="calcTileBox">
           <div class="calcRowTitle">鳴牌</div>
-          <template v-if="true">
-            <div class="calcGroup">
-              <tile spaceType="hand" tile="none" :selected="!!selectedTileName" />
-              <tile spaceType="hand" tile="none" :selected="!!selectedTileName" />
-              <tile spaceType="hand" tile="none" :selected="!!selectedTileName" />
-              <tile spaceType="hand" tile="none" :selected="!!selectedTileName" />
+          <template v-if="showMei.length > 0">
+            <div v-for="(mei, idx) in showMei" :key="'mei' + idx" class="calcGroup">
+              <tile v-for="(meiTile, ind) in mei.data" :key="mei.type + (idx + 1) * 10 + ind" spaceType="hand"
+                :tile="meiTile"
+                :selected="(meiTile === 'none' && (ind ? mei.data.some(e => e === selectedTileName) : !!selectedTileName)) || (selectedHandName == (mei.type + ((idx + 1) * 10 + ind)) && meiTile !== 'none')"
+                @setClick="setTile(mei.type, (idx + 1) * 10 + ind)"
+                @editClick="editTile(mei.type + ((idx + 1) * 10 + ind))"
+                @delClick="delTile(mei.type, (idx + 1) * 10 + ind)" />
             </div>
           </template>
-          <div class="calcAddBtn cross"></div>
-          <div class="calcAddBtn add"></div>
+          <template v-if="!onMeiBtnShow">
+            <div v-if="showMei.length > 0 && isEqual(showMei[showMei.length - 1].data, ['none'])"
+              class="calcAddBtn cross" @click="onDelMeiType()"></div>
+            <div v-if="showMei.length < 4" class="calcAddBtn add" @click="onAddMeiClick()"></div>
+          </template>
+          <template v-else>
+            <div class="calcAddBtn pon" @click="onAddMeiType('Pon')"></div>
+            <div class="calcAddBtn selfKan" @click="onAddMeiType('AKan')"></div>
+            <div class="calcAddBtn kan" @click="onAddMeiType('MKan')"></div>
+            <div class="calcAddBtn cross" @click="onAddMeiClick()"></div>
+          </template>
         </div>
       </div>
       <div class="calcRow">
         <div class="calcTileBox">
           <div class="calcRowTitle">拔北</div>
-          <tile spaceType="hand" tile="none" :selected="!!selectedTileName" />
-          <tile v-show="false" spaceType="hand" tile="none" :selected="!!selectedTileName" />
-          <tile v-show="false" spaceType="hand" tile="none" :selected="!!selectedTileName" />
-          <tile v-show="false" spaceType="hand" tile="none" :selected="!!selectedTileName" />
+          <tile v-for="(pei, idx) in showPei" :key="'pei' + idx" spaceType="hand" :tile="pei"
+            :selected="(pei === 'none' && selectedTileName === '4f') || (pei === '4f' && selectedHandName === ('pei' + idx))"
+            @setClick="setTile('pei', idx)" @editClick="editTile('pei' + idx)" @delClick="delTile('pei', idx)" />
         </div>
         <div class="calcTileBox">
           <div class="calcRowTitle">寶牌指</div>
-          <tile spaceType="hand" tile="none" :selected="!!selectedTileName" />
-          <tile v-show="false" spaceType="hand" tile="none" :selected="!!selectedTileName" />
-          <tile v-show="false" spaceType="hand" tile="none" :selected="!!selectedTileName" />
-          <tile v-show="false" spaceType="hand" tile="none" :selected="!!selectedTileName" />
-          <tile v-show="false" spaceType="hand" tile="none" :selected="!!selectedTileName" />
+          <tile v-for="(dora, idx) in showDora" :key="'dora' + idx" spaceType="hand" :tile="dora"
+            :selected="(dora === 'none' && !!selectedTileName) || (dora !== 'none' && selectedHandName === ('dora' + idx))"
+            @setClick="setTile('dora', idx)" @editClick="editTile('dora' + idx)" @delClick="delTile('dora', idx)" />
         </div>
         <div class="calcTileBox">
           <template v-if="isLiji">
             <div class="calcRowTitle">裏寶指</div>
-            <tile spaceType="hand" tile="none" :selected="!!selectedTileName" />
-            <tile v-show="false" spaceType="hand" tile="none" :selected="!!selectedTileName" />
-            <tile v-show="false" spaceType="hand" tile="none" :selected="!!selectedTileName" />
-            <tile v-show="false" spaceType="hand" tile="none" :selected="!!selectedTileName" />
-            <tile v-show="false" spaceType="hand" tile="none" :selected="!!selectedTileName" />
+            <tile v-for="(wura, idx) in showWuraDora" :key="'wura' + idx" spaceType="hand" :tile="wura"
+              :selected="(wura === 'none' && !!selectedTileName) || (wura !== 'none' && selectedHandName === ('wura' + idx))"
+              @setClick="setTile('wura', idx)" @editClick="editTile('wura' + idx)" @delClick="delTile('wura', idx)" />
           </template>
         </div>
       </div>
@@ -151,8 +145,9 @@
 </template>
 
 <script setup>
-import { ref, computed, onBeforeMount } from 'vue'
+import { ref, computed } from 'vue'
 import tile from '@/components/japanese/singleTile.vue'
+import { isEqual } from 'lodash-es'
 
 const tileList = ref({
   '1m': 4,
@@ -233,22 +228,56 @@ const onIncreaseClick = (type) => {
   }
 }
 const selectedHandName = ref('')
-const inHandCount = ref(13)
-const showHand = ref([])
+const inHandCount = computed(() => (13 - (showMei.value.length * 3)))
+const showHand = ref(['none'])
 const showHo = ref('none')
+const showMei = ref([])
+const MeiCount = ref({
+  Pon: 0,
+  MKan: 0,
+  AKan: 0
+})
+const showPei = ref(['none'])
+const showDora = ref(['none'])
+const showWuraDora = ref(['none'])
 const setTile = (where, idx) => {
   if (!!selectedTileName.value) {
     if (where === 'hand') {
       showHand.value[idx] = selectedTileName.value
+      if (showHand.value.length < inHandCount.value && !showHand.value.some(e => e === 'none')) {
+        showHand.value.push('none')
+      }
     } else if (where === 'ho') {
       showHo.value = selectedTileName.value
+    } else if (where === 'pei') {
+      showPei.value[idx] = selectedTileName.value
+      if (showPei.value.length < 4 && !showPei.value.some(e => e === 'none')) {
+        showPei.value.push('none')
+      }
+    } else if (where === 'dora') {
+      showDora.value[idx] = selectedTileName.value
+      if (showDora.value.length < 5 && !showDora.value.some(e => e === 'none')) {
+        showDora.value.push('none')
+      }
+    } else if (where === 'wura') {
+      showWuraDora.value[idx] = selectedTileName.value
+      if (showWuraDora.value.length < 5 && !showWuraDora.value.some(e => e === 'none')) {
+        showWuraDora.value.push('none')
+      }
+    } else if (['Pon', 'MKan', 'AKan'].includes(where)) {
+      const meiInd = Math.floor(idx / 10) - 1
+      const dataInd = idx % 10
+      showMei.value[meiInd].data[dataInd] = selectedTileName.value
+      if (showMei.value[meiInd].data.length < (where === 'Pon' ? 3 : 4) && !showMei.value[meiInd].data.some(e => e === 'none')) {
+        showMei.value[meiInd].data.push('none')
+      }
     }
     tileList.value[selectedTileName.value] -= 1
     selectedTileName.value = ''
   }
 }
 const editTile = (whereString) => {
-  if(selectedHandName.value === whereString) {
+  if (selectedHandName.value === whereString) {
     selectedHandName.value = ''
   } else {
     selectedHandName.value = whereString
@@ -258,17 +287,91 @@ const delTile = (where, idx) => {
   if (where === 'hand') {
     tileList.value[showHand.value[idx]] += 1
     showHand.value[idx] = 'none'
+    const noneIndex = showHand.value.findIndex((e, ind) => {
+      if (e !== 'none') return false
+      let lastArr = []
+      lastArr.length = showHand.value.length - ind
+      lastArr.fill('none')
+      return isEqual(showHand.value.slice(ind), lastArr)
+    })
+    if (noneIndex != -1)
+      showHand.value.splice(noneIndex, (showHand.value.length - noneIndex), 'none')
   } else if (where === 'ho') {
     tileList.value[showHo.value] += 1
     showHo.value = 'none'
+  } else if (where === 'pei') {
+    tileList.value[showPei.value[idx]] += 1
+    showPei.value[idx] = 'none'
+    const noneIndex = showPei.value.findIndex((e, ind) => {
+      if (e !== 'none') return false
+      let lastArr = []
+      lastArr.length = showPei.value.length - ind
+      lastArr.fill('none')
+      return isEqual(showPei.value.slice(ind), lastArr)
+    })
+    if (noneIndex != -1)
+      showPei.value.splice(noneIndex, (showPei.value.length - noneIndex), 'none')
+  } else if (where === 'dora') {
+    tileList.value[showDora.value[idx]] += 1
+    showDora.value[idx] = 'none'
+    const noneIndex = showDora.value.findIndex((e, ind) => {
+      if (e !== 'none') return false
+      let lastArr = []
+      lastArr.length = showDora.value.length - ind
+      lastArr.fill('none')
+      return isEqual(showDora.value.slice(ind), lastArr)
+    })
+    if (noneIndex != -1)
+      showDora.value.splice(noneIndex, (showDora.value.length - noneIndex), 'none')
+  } else if (where === 'wura') {
+    tileList.value[showWuraDora.value[idx]] += 1
+    showWuraDora.value[idx] = 'none'
+    const noneIndex = showWuraDora.value.findIndex((e, ind) => {
+      if (e !== 'none') return false
+      let lastArr = []
+      lastArr.length = showWuraDora.value.length - ind
+      lastArr.fill('none')
+      return isEqual(showWuraDora.value.slice(ind), lastArr)
+    })
+    if (noneIndex != -1)
+      showWuraDora.value.splice(noneIndex, (showWuraDora.value.length - noneIndex), 'none')
+  } else if (['Pon', 'MKan', 'AKan'].includes(where)) {
+    const meiInd = Math.floor(idx / 10) - 1
+    const dataInd = idx % 10
+    tileList.value[showMei.value[meiInd].data[dataInd]] += 1
+    showMei.value[meiInd].data[dataInd] = 'none'
+    const noneIndex = showMei.value[meiInd].data.findIndex((e, ind) => {
+      if (e !== 'none') return false
+      let lastArr = []
+      lastArr.length = showMei.value[meiInd].data.length - ind
+      lastArr.fill('none')
+      return isEqual(showMei.value[meiInd].data.slice(ind), lastArr)
+    })
+    if (noneIndex != -1)
+      showMei.value[meiInd].data.splice(noneIndex, (showMei.value[meiInd].data.length - noneIndex), 'none')
   }
   selectedHandName.value = ''
 }
 
-onBeforeMount(() => {
-  showHand.value.length = inHandCount.value
-  showHand.value.fill('none', 0)
-})
+const onMeiBtnShow = ref(false)
+const onAddMeiClick = () => {
+  onMeiBtnShow.value = !onMeiBtnShow.value
+}
+const onAddMeiType = (meiType) => {
+  showMei.value.push({
+    type: meiType,
+    data: ['none'],
+    typeOrder: MeiCount.value[meiType]
+  })
+  MeiCount.value[meiType] += 1
+  onMeiBtnShow.value = false
+}
+const onDelMeiType = () => {
+  if (isEqual(showMei.value[showMei.value.length - 1].data, ['none'])) {
+    if (showMei.value.length === 4 && !isEqual(showHand.value, ['none'])) showHand.value.push('none')
+    showMei.value.pop()
+  }
+}
 </script>
 
 <style scoped src="../style/scss/index.scss"></style>
