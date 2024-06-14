@@ -74,7 +74,7 @@
           <input v-model="isQanGan" type="checkbox">
         </div>
       </div>
-      <div class="submitBtn">送出計算</div>
+      <div class="submitBtn" @click="onSeneOpen()">送出計算</div>
     </div>
     <!-- 手牌區 -->
     <div class="calcuation">
@@ -141,6 +141,7 @@
         </div>
       </div>
     </div>
+    <clacSene v-if="showSene" @closeSene="onSeneClose()" />
   </div>
 </template>
 
@@ -148,6 +149,7 @@
 import { ref, computed } from 'vue'
 import tile from '@/components/japanese/singleTile.vue'
 import { isEqual } from 'lodash-es'
+import clacSene from '@/components/japanese/calculatedSene.vue'
 
 const tileList = ref({
   '1m': 4,
@@ -371,6 +373,14 @@ const onDelMeiType = () => {
     if (showMei.value.length === 4 && !isEqual(showHand.value, ['none'])) showHand.value.push('none')
     showMei.value.pop()
   }
+}
+
+const showSene = ref(false)
+const onSeneOpen = () => {
+  showSene.value = true
+}
+const onSeneClose = () => {
+  showSene.value = false
 }
 </script>
 

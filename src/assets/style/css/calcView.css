@@ -5,6 +5,7 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 .calcContainer .tilesList, .calcContainer .optional, .calcContainer .calcuation {
   width: 100%;
