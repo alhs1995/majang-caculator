@@ -11,9 +11,6 @@
           <div v-for="(handTile, ind) in handTiles" :key="'handTile' + ind" class="tile"
             :class="{ aka: handTile.includes('a') }" :tile="handTile"></div>
         </div>
-        <div class="hoTile">
-          <div class="tile" :class="{ aka: hoTile.includes('a') }" :tile="hoTile"></div>
-        </div>
       </div>
       <div class="scoreContainer">
         <div class="totalScore">
@@ -27,7 +24,7 @@
         </div>
       </div>
       <div class="tileKind">
-        累積役滿
+        48000点
       </div>
     </div>
   </div>
@@ -35,8 +32,7 @@
 
 <script setup>
 import { ref } from 'vue'
-const handTiles = ref(['1m', '1m', '1m', '1m', '2m', '2m', '2m', '2m', '3m', '3m', '3m', '3m', '4m', '4m', '4m', '4m', '5m'])
-const hoTile = ref('5ma')
+const handTiles = ref(['1m', '1m', '1m', '1m', '2m', '2m', '2m', '2m', '3m', '3m', '3m', '3m', '4m', '4m', '4m', '4m', '5m', '5ma'])
 const emit = defineEmits(['closeSene'])
 const onCloseClick = () => {
   emit('closeSene')
@@ -76,14 +72,14 @@ const onCloseClick = () => {
       display: flex;
       column-gap: 10px;
       box-sizing: border-box;
-      padding-left: 10px;
+      padding: 0 10px;
 
       .handTile {
         height: 100%;
         flex: 1 0 0px;
         display: flex;
         align-items: center;
-        column-gap: 5px;
+        justify-content: space-between;
       }
 
       .hoTile {
